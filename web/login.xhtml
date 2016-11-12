@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <head>
+        <title>Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h1>Welcome to Acme Plastic Gnomes</h1>
+        <hr/>
+        
+        <h3>Login or register</h3>
+        <hr/>
+
+        <h:form>
+            <p>
+                <h:outputLabel value="Username "/>
+                <h:inputText value="#{shopManager.username}"/>
+            </p>
+            <p>
+                <h:outputLabel value="Password "/>
+                <h:inputSecret value="#{shopManager.password}"/>
+            </p>
+            <p>
+                <h:commandButton value="Login" action="#{shopManager.login()}"/>
+                <h:commandButton value="Register" action="#{shopManager.register()}"/>
+            </p>
+        </h:form>
+        <hr/>
+
+        <p>
+            <h:outputText value="Successfully registered as #{shopManager.username}!" rendered="#{shopManager.isRegistered == true}"/>
+        </p>
+    </body>
+</html>

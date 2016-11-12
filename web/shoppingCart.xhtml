@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>Shopping cart</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h3>Shopping cart</h3>
+        <h:form>
+            <p><h:commandButton value="Update cart" action="#{shopManager.updateCart()}"/></p>
+        </h:form>
+        <hr/>
+        <p>
+            <h:form>
+                <h:dataTable value="#{shopManager.shoppingCart}" var="cart">
+                    <h:column rendered="#{shopManager.shoppingCart != null}">
+                        <f:facet name="header">Item name</f:facet>
+                        <h:outputText value="#{cart.itemname}"/>
+                    </h:column>
+                    <h:column rendered="#{shopManager.shoppingCart != null}">
+                        <f:facet name="header">Price</f:facet>
+                        <h:outputText value="#{cart.price}"/>
+                    </h:column>
+                    <h:column rendered="#{shopManager.shoppingCart != null}">
+                        <f:facet name="header">Amount</f:facet>
+                        <h:outputText value="#{cart.amount}"/>
+                    </h:column>
+                </h:dataTable>
+                <hr/>
+                <h:outputLabel for="total" value="Total sum: " rendered="#{shopManager.totalSum != 0.0}"/>
+                <h:outputText id="total" value="#{shopManager.totalSum}" rendered="#{shopManager.totalSum != 0.0}"/>
+                <p><h:commandButton value="Buy" action="#{shopManager.buy()}"/></p>
+            </h:form>
+        </p>
+        <p>
+            <h:link value="Back to web shop" outcome="shopGUI.xhtml">
+                    <f:param name="cid" value="#{shopManager.conversationID}"/>
+            </h:link>
+        </p>
+    </body>
+</html>

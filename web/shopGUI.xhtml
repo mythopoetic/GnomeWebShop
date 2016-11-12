@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Acme Plastic Gnomes Web Shop</title>
+    </h:head>
+    <h:body>
+
+        <h1><h:outputText value="Welcome to Acme Plastic Gnomes web shop, #{shopManager.username}!"/></h1> 
+        <h:form><h:commandButton value="Log out" action="#{shopManager.logout()}"/></h:form>
+        <hr/>
+        <p>
+            <h:link value=" View shopping cart " outcome="shoppingCart.xhtml">
+                <f:param name="cid" value="#{shopManager.conversationID}"/>
+            </h:link>
+                   
+        </p>
+        <hr/>
+
+        <h3>Inventory</h3>
+        <p>
+            <h:form>
+                <h:commandButton value="Browse inventory" action="#{shopManager.browse()}"/>
+   
+                <h:dataTable value="#{shopManager.inventory}" var="item">
+                    <h:column rendered="#{shopManager.inventory != null}">
+                        <f:facet name="header">Item name</f:facet>
+                        <h:outputText value="#{item.itemname}"/>
+                    </h:column>
+                    <h:column rendered="#{shopManager.inventory != null}">
+                        <f:facet name="header">Price</f:facet>
+                        <h:outputText value="#{item.price}"/>
+                    </h:column>
+                    <h:column rendered="#{shopManager.inventory != null}">
+                        <f:facet name="header">In stock</f:facet>
+                        <h:outputText value="#{item.amount}"/>
+                    </h:column>
+                    <h:column>
+                        <h:outputLabel for="amount"/>
+                        <h:inputText id="amount" value="#{shopManager.buyAmount[item.itemname]}"/>
+                    </h:column>
+                    <h:column>
+                        <h:commandLink value="Put in cart" action="#{shopManager.putInCart(item)}" rendered="#{!shopManager.isAdmin}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </p>
+        <p>
+            <h:outputText value="#{shopManager.copyToCart} #{shopManager.toCart}(s) added to the shopping cart" rendered="#{shopManager.copyToCart != 0}"/>
+        </p>
+        <hr/>
+
+        <p>
+            <h:link value="Admin's page" outcome="adminGUI.xhtml" rendered="#{shopManager.isAdmin == true}">
+                <f:param name="cid" value="#{shopManager.conversationID}"/>
+            </h:link>
+        </p>
+    </h:body>
+</html>

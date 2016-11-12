@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>Admin's Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h1>Admin's Page</h1>
+        <h:form><h:commandButton value="Log out" action="#{shopManager.logout()}"/></h:form>
+        <hr/>
+
+        <h3>Registered users</h3>
+        <p>
+            <h:form>
+                <h:commandButton value="Show users" action="#{shopManager.showUsers()}"/>
+                <h:dataTable value="#{shopManager.registered}" var="user">
+                    <h:column rendered="#{shopManager.registered != null}">
+                        <f:facet name="header">Username</f:facet>
+                        <h:outputText value="#{user.username}"/>
+                    </h:column>
+                    <h:column rendered="#{shopManager.registered != null}">
+                        <f:facet name="header">Blocked</f:facet>
+                        <h:outputText value="#{user.blocked}"/>
+                    </h:column>
+                    <h:column rendered="#{shopManager.registered != null}">
+                        <h:commandLink value="Block/unblock" action="#{shopManager.blockOrUnblock(user)}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </p>
+        <p>
+            <h:outputText value="User #{shopManager.blockedUser} blocked" rendered="#{shopManager.isBlocked == true}"/>
+            <h:outputText value="User #{shopManager.blockedUser} unblocked" rendered="#{shopManager.isUnblocked == true}"/>
+        </p>
+        <hr/>
+
+        <h3>Inventory</h3>
+        <p>
+            <h:form>
+                <h:commandButton value="Browse inventory" action="#{shopManager.browse()}"/>
+
+                <h:dataTable value="#{shopManager.inventory}" var="item">
+                    <h:column rendered="#{shopManager.inventory != null}">
+                        <f:facet name="header">Item name</f:facet>
+                        <h:outputText value="#{item.itemname}"/>
+                    </h:column>
+                    <h:column rendered="#{shopManager.inventory != null}">
+                        <f:facet name="header">Price</f:facet>
+                        <h:outputText value="#{item.price}"/>
+                    </h:column>
+                    <h:column rendered="#{shopManager.inventory != null}">
+                        <f:facet name="header">In stock</f:facet>
+                        <h:outputText value="#{item.amount}"/>
+                    </h:column>
+                    <h:column>
+                        <h:outputLabel for="amount"/>
+                        <h:inputText id="amount" value="#{shopManager.restockAmount[item.itemname]}"/>
+                    </h:column>
+                    <h:column>
+                        <h:commandLink value="Refill stock" action="#{shopManager.refillStock(item)}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </p>
+        <p>
+            <h:outputText value="Stock refilled for #{shopManager.refillItem} with amount #{shopManager.copyAmount}" rendered="#{shopManager.refilled}"/>
+        </p>
+        <hr/>
+
+        <h3>Add new item</h3>
+        <p>
+            <h:form>
+                <p>
+                    <h:outputLabel value="Item name: "/>
+                    <h:inputText value="#{shopManager.addItemName}"/>
+                </p>
+                <p>
+                    <h:outputLabel value="Price: "/>
+                    <h:inputText value="#{shopManager.addPrice}"/>
+                </p>
+                <p>
+                    <h:outputLabel value="Amount: "/>
+                    <h:inputText value="#{shopManager.addAmount}"/>
+                </p>
+                <p>
+                    <h:commandButton value="Add" action="#{shopManager.addNewItem()}"/>
+                </p>
+            </h:form>
+        </p>
+        <p>
+            <h:outputText value="New item #{shopManager.addItemName} added" rendered="#{shopManager.added == true}"/>
+        </p>
+        <hr/>
+
+        <h3>Remove item</h3>
+        <p>
+            <h:form>
+                <h:outputLabel value="Item name: "/>
+                <h:inputText value="#{shopManager.removeItem}"/>
+                <p>
+                    <h:commandButton value="Remove" action="#{shopManager.remove()}"/>
+                </p>
+            </h:form>
+        </p>
+        <p>
+            <h:outputText value="Item #{shopManager.removeItem} removed" rendered="#{shopManager.removed == true}"/>
+        </p>
+        <hr/>
+        <h:link value="Web shop" outcome="shopGUI.xhtml">
+            <f:param name="cid" value="#{shopManager.conversationID}"/>
+        </h:link>
+    </body>
+</html>

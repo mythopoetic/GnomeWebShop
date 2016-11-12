@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <navigation-rule>
+        <from-view-id>/shopGUI.xhtml</from-view-id>
+        <navigation-case>   
+            <if>#{!shopManager.success}</if>
+            <to-view-id>/shopError.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/adminGUI.xhtml</from-view-id>
+        <navigation-case>
+            <if>#{!shopManager.success}</if>
+            <to-view-id>/adminError.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/login.xhtml</from-view-id>
+        <navigation-case>
+            <if>#{!shopManager.success}</if>
+            <to-view-id>/loginError.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/shopGUI.xhtml</from-view-id>
+        <navigation-case>
+            <if>#{!shopManager.loggedIn}</if>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/adminGUI.xhtml</from-view-id>
+        <navigation-case>
+            <if>#{!shopManager.loggedIn}</if>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+      <navigation-rule>
+        <from-view-id>/login.xhtml</from-view-id>
+        <navigation-case>
+            <if>#{shopManager.loggedIn}</if>
+            <to-view-id>/shopGUI.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/shoppingCart.xhtml</from-view-id>
+        <navigation-case>
+            <if>#{!shopManager.success}</if>
+            <to-view-id>/shoppingCartError.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+</faces-config>
